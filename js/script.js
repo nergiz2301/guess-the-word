@@ -1,7 +1,7 @@
 
 const ullist=document.querySelector(".guessed-letters");
 const button=document.querySelector(".guess");
-const letter=document.querySelector(".letter");
+const letterI=document.querySelector(".letter");
 const progress=document.querySelector(".word-in-progress");
 const remainingGuessesElement=document.querySelector(".remaining");
 const span=document.querySelector(".remaining span");
@@ -30,10 +30,10 @@ const placeholder = function (word) {
   // Focus on letter input
   const placeholderLetters = [];
   for (const letter of word) {
-    console.log(letter);
+    //console.log(letter);
     placeholderLetters.push("●");
   }
-  wordInProgress.innerText = placeholderLetters.join("");
+  progress.innerText = placeholderLetters.join("");
 };
 
 // Fire off the game
@@ -42,12 +42,12 @@ const placeholder = function (word) {
 button.addEventListener("click",function(e){
     e.preventDefault();
     message.innerText= "";
-    const input=letter.value;
-    const goodGuess= checkInput(input);
+    const inputV=letterI.value;
+    const goodGuess= checkInput(inputV);
     if (goodGuess){
-        makeGuess(input);
+        makeGuess(inputV);
     }
-    letter.value="";
+    letterI.value="";
 });
 
 const checkInput= function(input){
@@ -59,21 +59,20 @@ const checkInput= function(input){
     }else if (!input.match(acceptedLetter)){
     message.innerText="Enter only a letter";
     } else{
-
-  letterInput.value = "";
+      return input;
 }};
 
 
 
 
-const makeGuess=function(input){
-    input = input.toUpperCase();
-    if (guessedLetters.includes(input)){
+const makeGuess=function(inputV){
+    inputV = inputV.toUpperCase();
+    if (guessedLetters.includes(inputV)){
         message.innerText="You already guessed that letter, silly. Try again.";
     }else {
-        guessedLetters.push(input);
+        guessedLetters.push(inputV);
         console.log(guessedLetters);
-        updateGuessesRemaining(input)
+        updateGuessesRemaining(inputV)
         showUlList();
         updateWordInProgress(guessedLetters);
       
@@ -102,14 +101,14 @@ const updateWordInProgress = function (guessedLetters) {
     progress.innerText = revealWord.join("");
     checkIfWin();
   };
-  const updateGuessesRemaining = function (input) {
+  const updateGuessesRemaining = function (inputV) {
     const upperWord = word.toUpperCase();
-    if (!upperWord.includes(input)) {
+    if (!upperWord.includes(inputV)) {
       // womp womp - bad guess, lose a chance
-      message.innerText = `Sorry, the word has no ${input}.`;
+      message.innerText = `Sorry, the word has no ${inputV}.`;
       remainingGuesses -= 1;
     } else {
-      message.innerText = `Good guess! The word has the letter ${input}.`;
+      message.innerText = `Good guess! The word has the letter ${inputV}.`;
     }
   
     if (remainingGuesses === 0) {
